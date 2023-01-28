@@ -1,5 +1,5 @@
 const { Schema, model } = require("mongoose");
-const thoughtsSchema = require("./Thought");
+const thoughtSchema = require("./Thought");
 
 // Schema to create user model
 const userSchema = new Schema({
@@ -18,29 +18,26 @@ const userSchema = new Schema({
   },
   thoughts: [
     {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Thought",
     },
   ],
   friends: [
     {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "User",
     },
   ],
 });
 
 // To test later
-friendCount
-  .virtual("getFriendCount")
+userSchema
+  .virtual("FriendCount")
   // Getter
   .get(function () {
     return `Friends: ${this.friends.length}`;
   });
 
-const Friends = model("friends", friendCount);
+const User = model("user", userSchema);
 
-const Student = model("user", userSchema);
-
-module.exports = Student;
-module.exports = Friends;
+module.exports = User;

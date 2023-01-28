@@ -1,4 +1,5 @@
-const { Schema, Types } = require("mongoose");
+const { Schema, Types, model } = require("mongoose");
+const reactionSchema = require("./Reaction");
 
 const thoughtSchema = new Schema(
   {
@@ -15,7 +16,15 @@ const thoughtSchema = new Schema(
     createdAt: {
       type: Date,
       default: Date.now,
+      // get: (date) => {
+
+      // }
     },
+    username: {
+      type: String,
+      required: true,
+    },
+    reactions: [reactionSchema],
   },
   {
     toJSON: {
@@ -25,15 +34,13 @@ const thoughtSchema = new Schema(
   }
 );
 
-reactionSchema
-  .virtual("getTagCss")
+thoughtSchema
+  .virtual("reactionCount")
   // Getter
   .get(function () {
-    return `color: ${this.color}`;
+    return this.reactions.length;
   });
 
-const Reaction = model("reaction", reactionSchema);
-
-module.exports = Tag;
+const Thought = model("thought", thoughtSchema);
 
 module.exports = thoughtSchema;
