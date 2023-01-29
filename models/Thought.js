@@ -43,4 +43,4 @@ thoughtSchema
 
 const Thought = model("thought", thoughtSchema);
 
-module.exports = thoughtSchema;
+module.exports = Thought;
