@@ -16,9 +16,24 @@ const thoughtSchema = new Schema(
     createdAt: {
       type: Date,
       default: Date.now,
-      // get: (date) => {
-
-      // }
+      get: (date) => {
+        const formattedDate = new Date(date.toString());
+        const options = { month: "long", day: "numeric", year: "numeric" };
+        const day = formattedDate.getDate();
+        const numberSuffix =
+          day === 1 ? "st" : day === 2 ? "nd" : day === 3 ? "rd" : "th";
+        return (
+          formattedDate
+            .toLocaleDateString("en-US", options)
+            .replace(/\b(\d+)\b/, `$1${numberSuffix}`) +
+          ", " +
+          formattedDate.toLocaleTimeString("en-US", {
+            hour: "numeric",
+            minute: "numeric",
+            hour12: true,
+          })
+        );
+      },
     },
     username: {
       type: String,
@@ -28,7 +43,8 @@ const thoughtSchema = new Schema(
   },
   {
     toJSON: {
-      getters: true,
+      //think this need to change from getters to virtuals// to check later
+      virtuals: true,
     },
     id: false,
   }
