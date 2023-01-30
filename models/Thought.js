@@ -14,24 +14,41 @@ const thoughtSchema = new Schema(
       minlength: 1,
     },
     createdAt: {
-      type: Date,
+      type: String,
       default: Date.now,
-      get: (date) => {
-        const formattedDate = new Date(date.toString());
-        const options = { month: "long", day: "numeric", year: "numeric" };
-        const day = formattedDate.getDate();
-        const numberSuffix =
-          day === 1 ? "st" : day === 2 ? "nd" : day === 3 ? "rd" : "th";
+      set: (d) => {
+        let date = new Date(d);
+        const monthNames = [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
+        ];
+
+        let hours = date.getHours();
+        let minutes = date.getMinutes();
+        let ampm = hours >= 12 ? "pm" : "am";
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        let strTime = hours + ":" + minutes + " " + ampm;
+
         return (
-          formattedDate
-            .toLocaleDateString("en-US", options)
-            .replace(/\b(\d+)\b/, `$1${numberSuffix}`) +
+          monthNames[date.getMonth()] +
+          " " +
+          date.getDate() +
           ", " +
-          formattedDate.toLocaleTimeString("en-US", {
-            hour: "numeric",
-            minute: "numeric",
-            hour12: true,
-          })
+          date.getFullYear() +
+          " at " +
+          strTime
         );
       },
     },
@@ -39,6 +56,11 @@ const thoughtSchema = new Schema(
       type: String,
       required: true,
     },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "user",
+    },
+
     reactions: [reactionSchema],
   },
   {

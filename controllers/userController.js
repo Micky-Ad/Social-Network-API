@@ -19,7 +19,6 @@ const userThought = async (userId) =>
     {
       $group: {
         _id: ObjectId(userId),
-        // overallGrade: { $avg: "$assignments.score" },
       },
     },
   ]);
@@ -28,6 +27,8 @@ module.exports = {
   //  Get all users
   getUsers(req, res) {
     User.find()
+      // .populate("thoughts")
+
       .then(async (users) => {
         const userObj = {
           users,
