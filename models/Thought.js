@@ -60,12 +60,10 @@ const thoughtSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "user",
     },
-
     reactions: [reactionSchema],
   },
   {
     toJSON: {
-      //think this need to change from getters to virtuals// to check later
       virtuals: true,
     },
     id: false,
