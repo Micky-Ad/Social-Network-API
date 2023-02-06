@@ -31,7 +31,7 @@ Installations needed to use the App
 # Screenshot:
 ----------------------------------------------------------------------
 
- ![Screenshot]()
+ ![Screenshot](assets/ThoughtSampleScreenShot.PNG)
 
 # Usage:
 ----------------------------------------------------------------------
